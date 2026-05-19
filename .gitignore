@@ -48,6 +48,4 @@ logs/
 # PDF instructions (not part of the codebase)
 *.pdf
 
-# Keep results directories but ignore large output files
-results/metrics/*.png
-results/figures/*.png
+# Keep results directories tracked
