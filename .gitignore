@@ -1,0 +1,53 @@
+# Data files (too large for git — copy manually via scp)
+*.xls
+*.xlsx
+data/*.csv
+data/*.json
+data/*.pkl
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+*.whl
+
+# Virtual environments
+venv/
+.venv/
+env/
+.env/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+logs/
+
+# Claude
+.claude/
+
+# PDF instructions (not part of the codebase)
+*.pdf
+
+# Keep results directories but ignore large output files
+results/metrics/*.png
+results/figures/*.png
