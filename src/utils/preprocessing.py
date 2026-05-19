@@ -13,15 +13,22 @@ def load_config(path: str = "configs/config.yaml") -> dict:
         return yaml.safe_load(f)
 
 
+def _sniff_is_csv(path: str) -> bool:
+    with open(path, "rb") as f:
+        header = f.read(16)
+    printable = sum(1 for b in header if 0x20 <= b < 0x7F or b in (0x09, 0x0A, 0x0D))
+    return printable / max(len(header), 1) > 0.9
+
+
 def load_dataset(path: str, label_col: str = "label", metadata_cols: list = None) -> tuple:
     p = Path(path)
-    if p.suffix == ".xls":
+    if p.suffix in (".xls", ".xlsx") and not _sniff_is_csv(path):
+        engine = "xlrd" if p.suffix == ".xls" else "openpyxl"
         try:
-            df = pd.read_excel(path, engine="xlrd")
+            df = pd.read_excel(path, engine=engine)
         except Exception:
-            df = pd.read_excel(path, engine="openpyxl")
-    elif p.suffix == ".xlsx":
-        df = pd.read_excel(path, engine="openpyxl")
+            fallback = "openpyxl" if engine == "xlrd" else "xlrd"
+            df = pd.read_excel(path, engine=fallback)
     else:
         df = pd.read_csv(path, low_memory=False)
 
