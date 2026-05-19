@@ -15,8 +15,13 @@ def load_config(path: str = "configs/config.yaml") -> dict:
 
 def load_dataset(path: str, label_col: str = "label", metadata_cols: list = None) -> tuple:
     p = Path(path)
-    if p.suffix in (".xls", ".xlsx"):
-        df = pd.read_excel(path)
+    if p.suffix == ".xls":
+        try:
+            df = pd.read_excel(path, engine="xlrd")
+        except Exception:
+            df = pd.read_excel(path, engine="openpyxl")
+    elif p.suffix == ".xlsx":
+        df = pd.read_excel(path, engine="openpyxl")
     else:
         df = pd.read_csv(path, low_memory=False)
 
