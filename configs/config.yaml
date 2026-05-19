@@ -1,0 +1,64 @@
+data:
+  d1_path: data/d1.xls
+  d2_path: data/d2.csv
+  d3_path: data/d3.csv
+  d3_features_path: data/d3_features.csv
+  metadata_cols:
+    - filename
+    - sourcecode
+    - opcode
+  label_col: label
+  positive_class: webshell
+
+preprocessing:
+  test_size: 0.2
+  random_state: 42
+  pca_variance: 0.95
+
+models:
+  random_state: 42
+  cv_folds: 5
+  n_jobs: -1
+  scoring: f1
+
+  decision_tree:
+    max_depth: [3, 5, 10, null]
+    min_samples_split: [2, 5, 10]
+    criterion: [gini, entropy]
+
+  knn:
+    n_neighbors: [3, 5, 7, 11, 15]
+    weights: [uniform, distance]
+    metric: [euclidean, manhattan]
+
+  svm:
+    C: [0.1, 1, 10, 100]
+    kernel: [rbf, linear]
+    gamma: [scale, auto]
+
+  naive_bayes:
+    var_smoothing: [1.0e-9, 1.0e-8, 1.0e-7, 1.0e-6]
+
+  logistic_regression:
+    C: [0.01, 0.1, 1, 10, 100]
+    solver: [lbfgs, liblinear]
+    max_iter: [2000]
+
+  random_forest:
+    n_estimators: [100, 200, 300]
+    max_depth: [5, 10, null]
+    min_samples_split: [2, 5]
+    max_features: [sqrt, log2]
+
+  adacost:
+    n_estimators: [50, 100, 200]
+    cost_positive: [1.0, 2.0, 3.0, 5.0]
+    cost_negative: [1.0]
+
+feature_selection:
+  k_best: 30
+  rf_importance_threshold: 0.005
+
+results:
+  metrics_dir: results/metrics
+  figures_dir: results/figures
